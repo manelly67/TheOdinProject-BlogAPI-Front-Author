@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 
 import "./App.css";
 
@@ -33,8 +34,17 @@ function App() {
 
   return (
     <>
+      <nav>
+        <div>
+          <Link to="">SIGN UP</Link>
+        </div>
+        <div>
+          <Link to="">LOGIN</Link>
+        </div>
+      </nav>
+
       <div className="blog-content">
-      <p >nuevo proyecto</p>
+      <h2 >website for authoring and editing posts</h2>
 
       <p> {blogdata.message === undefined ? null : blogdata.message} </p>
 
