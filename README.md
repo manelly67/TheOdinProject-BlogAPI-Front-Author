@@ -1,1 +1,1 @@
-# TheOdinProject-BlogAPI-Front-Author
+# TheOdinProject-BlogAPI Frontend for the clients with role AUTHOR
