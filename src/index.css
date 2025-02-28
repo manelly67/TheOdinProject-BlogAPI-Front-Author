@@ -35,6 +35,18 @@ h1 {
   line-height: 1.1;
 }
 
+form {
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap:20px;
+}
+
+form > label{
+ padding-right: 10px;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
