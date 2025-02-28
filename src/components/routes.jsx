@@ -1,17 +1,17 @@
 import App from "../App";
-import ErrorPage from './error_page';
-import SignUp from './SignUp';
+import ErrorPage from "./error_page";
+import SignUp from "./SignUp";
 
 const routes = [
   {
     index: true,
     path: "/",
     element: <App />,
-    
+
     errorElement: <ErrorPage />,
   },
   {
-    path: 'sign_up',
+    path: "sign_up",
     element: <SignUp />,
   },
 ];

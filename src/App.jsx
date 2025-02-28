@@ -36,9 +36,7 @@ function App() {
     <>
       <nav>
         <div>
-          <Link to="sign_up" >
-            SIGN UP
-          </Link>
+          <Link to="sign_up">SIGN UP</Link>
         </div>
         <div>
           <Link to="">LOGIN</Link>
@@ -71,7 +69,6 @@ function App() {
         ) : (
           <div>There are no posts published!</div>
         )}
-       
       </div>
     </>
   );
