@@ -1,0 +1,38 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`App component > renders correct initial page 1`] = `
+<div>
+  <nav>
+    <div>
+      <a
+        data-discover="true"
+        href="/"
+      >
+        SIGN UP
+      </a>
+    </div>
+    <div>
+      <a
+        data-discover="true"
+        href="/"
+      >
+        LOGIN
+      </a>
+    </div>
+  </nav>
+  <div
+    class="blog-content"
+  >
+    <h2>
+      website for authoring and editing posts
+    </h2>
+    <p>
+       
+       
+    </p>
+    <div>
+      Loading...
+    </div>
+  </div>
+</div>
+`;
