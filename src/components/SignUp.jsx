@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { ErrorMessage } from "./ErrorMessage";
 
 const titleDiv = document.querySelector("title");
 const url = "https://top-backend-blogapi.onrender.com/sign_up";
@@ -56,8 +57,8 @@ const SingUp = () => {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "*/*",
-        "Connection": "keep-alive",
+        Accept: "*/*",
+        Connection: "keep-alive",
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify(userdata),
@@ -78,24 +79,12 @@ const SingUp = () => {
       {user === undefined ? (
         <>
           <h2>Sign Up Here:</h2>
-          <div>
-            {responseData.errors === undefined
-              ? null
-              : responseData.errors.map((e) => {
-                  return (
-                    <p key={e.msg} className="error">
-                      {" "}
-                      {e.msg}{" "}
-                    </p>
-                  );
-                })}
-          </div>
+          <ErrorMessage errors={responseData.errors} />
 
           <form
             id="sign_up"
             action="https://top-backend-blogapi.onrender.com/sign_up"
             method="POST"
-            mode="cors"
             autoComplete="off"
             noValidate
           >
@@ -166,7 +155,7 @@ const SingUp = () => {
           <h2> {responseData.text} </h2>
           <p> {`username: ${user.username}`} </p>
           <div>
-            <Link to="/">LOGIN</Link>
+            <Link to="login">LOGIN</Link>
             <Link to="/">LOGOUT</Link>
           </div>
         </>
