@@ -5,7 +5,7 @@ import { urlAddresses } from "../assets/urlAddresses";
 const titleDiv = document.querySelector("title");
 const url = urlAddresses.logout;
 
-const Login = () => {
+const Logout = () => {
   const [responseData, setResponseData] = useState("{}");
   const [title, setTitle] = useState("TITLE");
   const [user, setUser] = useState(undefined);
@@ -52,4 +52,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Logout;

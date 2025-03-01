@@ -32,6 +32,7 @@ const routes = [
     path: "logout",
     element: <Logout />,
   },
+ 
 ];
 
 export default routes;
