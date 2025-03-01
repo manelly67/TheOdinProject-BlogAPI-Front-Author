@@ -4,6 +4,7 @@ const urlAddresses = {
     "home" : `${base}/`,
     "sign_up" : `${base}/sign_up`,
     "login" : `${base}/login`,
+    "logout" : `${base}/logout`,
 };
 
 

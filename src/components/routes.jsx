@@ -2,11 +2,10 @@ import App from "../App";
 import ErrorPage from "./error_page";
 import SignUp from "./SignUp";
 import Login from "./Login";
+import Logout from "./Logout";
 
 /*
 
- ROUTE LOGOUT
- REMOVE TOKEN IN LOCAL
 REDIRIGIR despues de login hacia pagina inicial con posts
 
  ALGUNOS TEST
@@ -28,6 +27,10 @@ const routes = [
   {
     path: "login",
     element: <Login />,
+  },
+  {
+    path: "logout",
+    element: <Logout />,
   },
 ];
 
