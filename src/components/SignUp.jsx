@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ErrorMessage } from "./ErrorMessage";
+import { urlAddresses } from "../assets/urlAddresses";
 
 const titleDiv = document.querySelector("title");
-const url = "https://top-backend-blogapi.onrender.com/sign_up";
+const url = urlAddresses.sign_up;
 
 const SingUp = () => {
   const [responseData, setResponseData] = useState("{}");
@@ -83,7 +84,7 @@ const SingUp = () => {
 
           <form
             id="sign_up"
-            action="https://top-backend-blogapi.onrender.com/sign_up"
+            action={url}
             method="POST"
             autoComplete="off"
             noValidate

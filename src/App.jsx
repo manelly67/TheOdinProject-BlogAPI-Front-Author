@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { urlAddresses } from "./assets/urlAddresses";
 
 import "./App.css";
 
 const titleDiv = document.querySelector("title");
+const url = urlAddresses.home;
 
 function App() {
   const initialData = {};
@@ -17,7 +19,7 @@ function App() {
   }
 
   useEffect(() => {
-    getData("https://top-backend-blogapi.onrender.com/");
+    getData(url);
   }, []);
 
   async function getData(arg) {
@@ -39,7 +41,7 @@ function App() {
           <Link to="sign_up">SIGN UP</Link>
         </div>
         <div>
-          <Link to="">LOGIN</Link>
+          <Link to="login">LOGIN</Link>
         </div>
       </nav>
 
