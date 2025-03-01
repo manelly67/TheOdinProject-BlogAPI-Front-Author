@@ -11,7 +11,6 @@ const Login = () => {
   const [title, setTitle] = useState("TITLE");
   const [user, setUser] = useState(undefined);
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
-console.log(token);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -63,7 +62,7 @@ console.log(token);
         setResponseData(data);
         setUser(data.user);
         setToken(data.token);
-        localStorage.setItem("token", JSON.stringify(token));
+        localStorage.setItem("token", JSON.stringify(data.token));
       })
       .catch((err) => {
         console.log(err);
@@ -124,7 +123,7 @@ console.log(token);
           <h2> {responseData.text} </h2>
           <p> {`username: ${user.username}`} </p>
           <div>
-            <Link to="/">LOGOUT</Link>
+            <Link to="/logout">LOGOUT</Link>
           </div>
         </>
       )}
