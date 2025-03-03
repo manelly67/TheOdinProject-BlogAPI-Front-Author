@@ -157,7 +157,6 @@ const SingUp = () => {
           <p> {`username: ${user.username}`} </p>
           <div>
             <Link to="login">LOGIN</Link>
-            <Link to="/">LOGOUT</Link>
           </div>
         </>
       )}

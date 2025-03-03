@@ -7,11 +7,8 @@ const url = urlAddresses.logout;
 
 const Logout = () => {
   const [responseData, setResponseData] = useState("{}");
-  const [title, setTitle] = useState("TITLE");
-  const [user, setUser] = useState(undefined);
-  const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
-  
-  titleDiv.textContent = title;
+ 
+  titleDiv.textContent = 'BLOG | LOGOUT';
 
   useEffect(() => {
     switch (responseData === "{}") {
@@ -28,9 +25,7 @@ const Logout = () => {
       const response = await fetch(arg, { mode: "cors" });
       const temp = await response.json();
       setResponseData(temp);
-      setTitle(temp.title);
-      setUser(undefined);
-      setToken(undefined);
+      localStorage.setItem("user", JSON.stringify(null));
       localStorage.setItem("token", JSON.stringify(null));
       return setResponseData;
     } catch (error) {

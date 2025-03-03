@@ -3,8 +3,10 @@ import ErrorPage from "./error_page";
 import SignUp from "./SignUp";
 import Login from "./Login";
 import Logout from "./Logout";
+import Dashboard from "./Dashboard";
 
 /*
+SALVAR EL USER ID Y EL TOKEN EN LOCALSTORAGE 
 
 REDIRIGIR despues de login hacia pagina inicial con posts
 
@@ -31,6 +33,10 @@ const routes = [
   {
     path: "logout",
     element: <Logout />,
+  },
+  {
+    path: "dashboard",
+    element: <Dashboard />,
   },
  
 ];

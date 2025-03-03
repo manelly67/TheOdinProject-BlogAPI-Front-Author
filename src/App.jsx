@@ -2,21 +2,31 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { urlAddresses } from "./assets/urlAddresses";
 
+
 import "./App.css";
 
 const titleDiv = document.querySelector("title");
 const url = urlAddresses.home;
 
 function App() {
+  titleDiv.textContent = "BLOG | HOME";
   const initialData = {};
-  const initialTitle = "Blog API";
-  const [blogdata, setBlogdata] = useState(initialData);
 
-  if (titleDiv) {
-    blogdata.title === undefined
-      ? (titleDiv.textContent = initialTitle)
-      : (titleDiv.textContent = blogdata.title);
-  }
+  const [blogdata, setBlogdata] = useState(initialData);
+  const [user, setUser] = useState(
+    localStorage.getItem("user") !== undefined
+      ? JSON.parse(localStorage.getItem("user"))
+      : null
+  );
+  const [token, setToken] = useState(
+    localStorage.getItem("token") !== undefined
+      ? JSON.parse(localStorage.getItem("token"))
+      : null
+  );
+
+  console.log(blogdata);
+  console.log(user);
+  console.log(token);
 
   useEffect(() => {
     getData(url);
@@ -41,7 +51,12 @@ function App() {
           <Link to="sign_up">SIGN UP</Link>
         </div>
         <div>
-          <Link to="login">LOGIN</Link>
+          <Link to={"login"} state={{ user: user, token: token }}>
+            LOGIN
+          </Link>
+        </div>
+        <div>
+          <Link to="logout">LOGOUT</Link>
         </div>
       </nav>
 

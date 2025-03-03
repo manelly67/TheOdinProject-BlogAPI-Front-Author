@@ -1,49 +1,32 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { ErrorMessage } from "./ErrorMessage";
+import { Navigate } from "react-router-dom";
+import { useState } from "react";
 import { urlAddresses } from "../assets/urlAddresses";
+import { useLocation } from 'react-router-dom';
 
 const titleDiv = document.querySelector("title");
 const url = urlAddresses.login;
 
 const Login = () => {
+ 
+  titleDiv.textContent = 'BLOG | LOGIN';
+  const location = useLocation();
+  const { user, token } = location.state;
   const [responseData, setResponseData] = useState("{}");
-  const [title, setTitle] = useState("TITLE");
-  const [user, setUser] = useState(undefined);
-  const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
+  const [activeUser, setActiveUser] = useState(
+    responseData.user === undefined ? user : responseData.user
+  );
+  const [activeToken, setActiveToken] = useState(
+    responseData.token === undefined ? token : responseData.token
+  );
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  titleDiv.textContent = title;
-
-  useEffect(() => {
-    switch (responseData === "{}") {
-      case true:
-        getData(url);
-        break;
-      case false:
-        break;
-    }
-  });
-
-  async function getData(arg) {
-    try {
-      const response = await fetch(arg, { mode: "cors" });
-      const temp = await response.json();
-      setResponseData(temp);
-      setTitle(temp.title);
-      setUser(temp.user);
-      return setResponseData;
-    } catch (error) {
-      alert("Something was wrong. try again later");
-      console.log(error);
-    }
-  }
-
+    
   function handleSubmit(e) {
     e.preventDefault();
     const logindata = {
-      username,
+     username,
      password,
     };
     fetch(`${url}`, {
@@ -51,8 +34,8 @@ const Login = () => {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "*/*",
-        "Connection": "keep-alive",
+        Accept: "*/*",
+        Connection: "keep-alive",
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify(logindata),
@@ -60,9 +43,17 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         setResponseData(data);
-        setUser(data.user);
-        setToken(data.token);
-        localStorage.setItem("token", JSON.stringify(data.token));
+        if (data.user !== undefined) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          setActiveUser(data.user);
+        }
+        if (data.token !== undefined) {
+          localStorage.setItem("token", JSON.stringify(data.token));
+          setActiveToken(data.token);
+        }
+        if (data.user === undefined) {
+          setResponseData({ errors: "user or password invalid" });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -73,10 +64,13 @@ const Login = () => {
   return (
     <>
       <Link to="/">HOME</Link>
-      {user === undefined ? (
+      {activeUser === null ? (
         <>
           <h2>Login in your account:</h2>
-          <ErrorMessage errors={responseData.errors} />
+          {responseData.errors === undefined ? null : (
+            <p className="error"> {responseData.errors}</p>
+          )}
+
           <form
             id="sign_up"
             action={url}
@@ -118,14 +112,17 @@ const Login = () => {
             </button>
           </form>
         </>
-      ) : (
+      ) : activeUser.role !== "AUTHOR" ? (
         <>
-          <h2> {responseData.text} </h2>
-          <p> {`username: ${user.username}`} </p>
+          <h2> sorry, your role does not have access to this content</h2>
+          <p> {`username: ${activeUser.username}`} </p>
           <div>
             <Link to="/logout">LOGOUT</Link>
           </div>
         </>
+      ) : (
+        <Navigate to="/dashboard" replace={true} state={{ user: activeUser, token: activeToken }} />
+       
       )}
     </>
   );
