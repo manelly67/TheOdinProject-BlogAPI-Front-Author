@@ -25,7 +25,6 @@ const Logout = () => {
       const response = await fetch(arg, { mode: "cors" });
       const temp = await response.json();
       setResponseData(temp);
-      localStorage.setItem("user", JSON.stringify(null));
       localStorage.setItem("token", JSON.stringify(null));
       return setResponseData;
     } catch (error) {

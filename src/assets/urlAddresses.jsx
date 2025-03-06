@@ -5,6 +5,10 @@ const urlAddresses = {
     "sign_up" : `${base}/sign_up`,
     "login" : `${base}/login`,
     "logout" : `${base}/logout`,
+    "posts" : `${base}/posts`,
+    "new_post": `${base}/posts/new`,
+    "my_work": `${base}/mywork`,
+
 };
 
 

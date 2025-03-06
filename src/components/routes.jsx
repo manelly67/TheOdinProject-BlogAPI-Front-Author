@@ -4,15 +4,9 @@ import SignUp from "./SignUp";
 import Login from "./Login";
 import Logout from "./Logout";
 import Dashboard from "./Dashboard";
+import NewPost from "./NewPost";
+import MyWork from "./MyWork";
 
-/*
-SALVAR EL USER ID Y EL TOKEN EN LOCALSTORAGE 
-
-REDIRIGIR despues de login hacia pagina inicial con posts
-
- ALGUNOS TEST
- COPIAR EL REPOSITORIO PAR EL SIGUIENTE FRONTEND
-*/
 
 const routes = [
   {
@@ -37,6 +31,16 @@ const routes = [
   {
     path: "dashboard",
     element: <Dashboard />,
+    children:[
+      {
+        path: "new",
+        element: <NewPost />,
+      },
+      {
+        path: "my_work",
+        element: <MyWork />,
+      },
+    ],
   },
  
 ];

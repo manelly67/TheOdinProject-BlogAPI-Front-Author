@@ -31,3 +31,33 @@
 .error {
   color: red;
 }
+
+nav, .dashboardHead{
+  display: flex;
+  flex-direction: row;
+  gap:30px;
+}
+
+.newPostForm {
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.newPostForm > div {
+  display:flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+textarea {
+  width: 400px;
+}
+
+.newPostForm > #title {
+  height: 50px;
+}
+
+.newPostForm > #content {
+  height: 400px;
+}

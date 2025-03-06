@@ -11,10 +11,10 @@ const Login = () => {
  
   titleDiv.textContent = 'BLOG | LOGIN';
   const location = useLocation();
-  const { user, token } = location.state;
+  const { userlogin, token } = location.state;
   const [responseData, setResponseData] = useState("{}");
   const [activeUser, setActiveUser] = useState(
-    responseData.user === undefined ? user : responseData.user
+    token === null ? null : responseData.user
   );
   const [activeToken, setActiveToken] = useState(
     responseData.token === undefined ? token : responseData.token
@@ -31,12 +31,10 @@ const Login = () => {
     };
     fetch(`${url}`, {
       method: "POST",
-      mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        Accept: "*/*",
-        Connection: "keep-alive",
-        "Access-Control-Allow-Origin": "*",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
       },
       body: JSON.stringify(logindata),
     })
@@ -44,7 +42,6 @@ const Login = () => {
       .then((data) => {
         setResponseData(data);
         if (data.user !== undefined) {
-          localStorage.setItem("user", JSON.stringify(data.user));
           setActiveUser(data.user);
         }
         if (data.token !== undefined) {

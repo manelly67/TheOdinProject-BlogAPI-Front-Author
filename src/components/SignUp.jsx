@@ -7,42 +7,20 @@ const titleDiv = document.querySelector("title");
 const url = urlAddresses.sign_up;
 
 const SingUp = () => {
+  titleDiv.textContent = 'BLOG | SIGN UP';
   const [responseData, setResponseData] = useState("{}");
-  const [title, setTitle] = useState("TITLE");
+  
   const [user, setUser] = useState(undefined);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
-  titleDiv.textContent = title;
+  
   const passwordRequirements =
     responseData.passwordRequirements === undefined
       ? " "
       : responseData.passwordRequirements;
 
-  useEffect(() => {
-    switch (responseData === "{}") {
-      case true:
-        getData(url);
-        break;
-      case false:
-        break;
-    }
-  });
-
-  async function getData(arg) {
-    try {
-      const response = await fetch(arg, { mode: "cors" });
-      const temp = await response.json();
-      setResponseData(temp);
-      setTitle(temp.title);
-      setUser(temp.user);
-      return setResponseData;
-    } catch (error) {
-      alert("Something was wrong. try again later");
-      console.log(error);
-    }
-  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -55,12 +33,10 @@ const SingUp = () => {
     };
     fetch(`${url}`, {
       method: "POST",
-      mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        Accept: "*/*",
-        Connection: "keep-alive",
-        "Access-Control-Allow-Origin": "*",
+        "Accept": "*/*",
+        "Connection": "keep-alive",
       },
       body: JSON.stringify(userdata),
     })
@@ -77,7 +53,7 @@ const SingUp = () => {
   return (
     <>
       <Link to="/">HOME</Link>
-      {user === undefined ? (
+      {user===undefined ? (
         <>
           <h2>Sign Up Here:</h2>
           <ErrorMessage errors={responseData.errors} />
