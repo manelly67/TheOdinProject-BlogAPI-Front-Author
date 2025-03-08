@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { urlAddresses } from "./assets/urlAddresses";
-import { homepage } from "../mock_data";
+import { homepage } from "./mock_data";
 
 import "./App.css";
 
@@ -11,6 +11,7 @@ const url = urlAddresses.home;
 function App() {
   titleDiv.textContent = "BLOG | HOME";
   const initialData = homepage;
+  const navigate = useNavigate();
 
   const [blogdata, setBlogdata] = useState(initialData);
 
@@ -32,7 +33,7 @@ function App() {
 
   async function getData(url) {
     try {
-      const response = await fetch(url, { mode: "cors" });  
+      const response = await fetch(url);  
       const responseData = await response.json();
       setBlogdata(responseData);
       return setBlogdata;
@@ -41,6 +42,10 @@ function App() {
       console.log(error);
     }
   } ACTIVAR LUEGO DE PROBAR*/
+
+  function navigateToDetails(arg1) {
+    navigate(arg1);
+  }
 
   return (
     <>
@@ -59,11 +64,8 @@ function App() {
         ) : (
           <>
             <div>
-              <Link to="logout" >
-                LOGOUT
-              </Link>
+              <Link to="logout">LOGOUT</Link>
             </div>
-            
           </>
         )}
       </nav>
@@ -80,10 +82,16 @@ function App() {
             {blogdata.allPosts.map((post) => {
               return (
                 <li key={post.id}>
-                  <p>{post.title}</p>
+                  <p style={{maxWidth:'200px'}}>{post.title}</p>
                   <p>{post.author.username}</p>
 
-                  <button>DETAILS</button>
+                  <button style={{height:'55px'}}
+                    onClick={() => {
+                      navigateToDetails(`posts/${post.authorId}/${post.id}`);
+                    }}
+                  >
+                    DETAILS
+                  </button>
                 </li>
               );
             })}

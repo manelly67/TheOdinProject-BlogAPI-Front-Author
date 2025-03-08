@@ -1,4 +1,5 @@
 import App from "../App";
+import Details from "./Details";
 import ErrorPage from "./error_page";
 import SignUp from "./SignUp";
 import Login from "./Login";
@@ -6,6 +7,7 @@ import Logout from "./Logout";
 import Dashboard from "./Dashboard";
 import NewPost from "./NewPost";
 import MyWork from "./MyWork";
+import Update from "./Update";
 
 
 const routes = [
@@ -13,7 +15,7 @@ const routes = [
     index: true,
     path: "/",
     element: <App />,
-
+    
     errorElement: <ErrorPage />,
   },
   {
@@ -40,7 +42,15 @@ const routes = [
         path: "my_work",
         element: <MyWork />,
       },
+      {
+        path: "update/:authorid/:postid",
+        element: <Update />,
+      },
     ],
+  },
+  {
+    path: "posts/:authorid/:postid",
+    element: <Details />,
   },
  
 ];

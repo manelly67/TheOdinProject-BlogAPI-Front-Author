@@ -13,6 +13,7 @@ const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const location = useLocation();
+  const [responseData, setResponseData] = useState("{}");
 
   /* location.state = {
     user: { id: 3, role: "AUTHOR", username: "someone" },
@@ -33,6 +34,7 @@ const Dashboard = () => {
   }, []);
 
   function navigateToNewPost() {
+    setResponseData("{}");
     navigate("/dashboard/new");
   }
 
@@ -89,6 +91,8 @@ const Dashboard = () => {
                 setUser,
                 token,
                 setToken,
+                responseData,
+                setResponseData
               }}
             />
           </div>

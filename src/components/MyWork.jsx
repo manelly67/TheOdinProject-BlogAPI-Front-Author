@@ -12,6 +12,12 @@ const MyWork = () => {
     user === undefined ? null : user.posts
   );
 
+  // TOMAR LA RUTA DE metodo PUT 
+  function togglePublish(){
+
+  }
+
+
   return (
     <>
       <h3>AUTHOR: {user.username}</h3>

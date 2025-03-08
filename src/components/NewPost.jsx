@@ -7,11 +7,22 @@ import { urlAddresses } from "../assets/urlAddresses";
 const titleDiv = document.querySelector("title");
 const url = urlAddresses.new_post;
 
+
 const NewPost = () => {
   
 titleDiv.textContent = "BLOG | NEW POST";
-const { navigate, allowed, user, setUser, token, setToken } = useOutletContext();
-const [responseData, setResponseData] = useState("{}");
+const {
+  navigate,
+  allowed,
+  user,
+  setUser,
+  token,
+  setToken,
+  responseData,
+  setResponseData,
+} = useOutletContext();
+
+const url_mywork = urlAddresses.my_work;
 const [title, setTitle] = useState("");
 const [content, setContent] = useState("");
 const [published, setPublished] = useState(false);
@@ -40,14 +51,38 @@ function handleSubmit(e){
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setResponseData(data);
         
       })
       .catch((err) => {
         console.log(err);
       });
+
+  refreshPosts();
   }
+
+  async function refreshPosts(){
+   
+    fetch( url_mywork, {
+      method: "GET",
+      credentials: "same-origin",
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization' : `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if(data.user!==undefined){
+          setUser(data.user);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
 
   return (
     <>

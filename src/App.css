@@ -61,3 +61,10 @@ textarea {
 .newPostForm > #content {
   height: 400px;
 }
+
+.postDetails {
+  width: 80%;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: repeat(2, 75px) repeat(2, min(200px, 50%));
+}

@@ -8,7 +8,8 @@ const urlAddresses = {
     "posts" : `${base}/posts`,
     "new_post": `${base}/posts/new`,
     "my_work": `${base}/mywork`,
-
+    "post_details": `${base}/posts/`,
+    
 };
 
 
