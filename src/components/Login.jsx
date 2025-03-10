@@ -11,7 +11,7 @@ const Login = () => {
  
   titleDiv.textContent = 'BLOG | LOGIN';
   const location = useLocation();
-  const { userlogin, token } = location.state;
+  const { token } = location.state;
   const [responseData, setResponseData] = useState("{}");
   const [activeUser, setActiveUser] = useState(
     token === null ? null : responseData.user

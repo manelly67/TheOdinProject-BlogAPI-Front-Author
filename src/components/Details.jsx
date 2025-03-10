@@ -1,27 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { post } from "../mock_data";
 import { urlAddresses } from "../assets/urlAddresses";
-import { useLocation } from "react-router-dom";
 
 const Details = () => {
   const [postd, setPostd] = useState(null);
 
-  const location = useLocation();
-  console.log(location.pathname);
   const { authorid } = useParams();
   const { postid } = useParams();
-  console.log(authorid);
-  console.log(postid);
   const url = `${urlAddresses.posts}/${authorid}/${postid}`;
-  console.log(url);
 
   useEffect(() => {
-    /* setPostd(post); */
-   if (postd === null) {
+    if (postd === null) {
       getData(url);
-    } 
-  }, []);
+    }
+  }, [postd, url]);
 
   async function getData(url) {
     try {
@@ -33,8 +25,6 @@ const Details = () => {
       console.log(error);
     }
   }
-
-  console.log(postd);
 
   return (
     <>
@@ -61,17 +51,43 @@ const Details = () => {
                   Author: {postd.post.author.username}
                 </h3>
                 <p style={{ gridRow: 2, gridColumnStart: 2, gridColumnEnd: 3 }}>
-                  Publish at: {new Date(postd.post.createdAt).toLocaleString('en-US', { timeZone: 'America/Guayaquil' })}
-                </p>
-                <p style={{ gridRow: 3, gridColumnStart: 1, gridColumnEnd: 3, textAlign:"justify" }}>
-                  {postd.post.content}
+                  Publish at:{" "}
+                  {new Date(postd.post.createdAt).toLocaleString("en-US", {
+                    timeZone: "America/Guayaquil",
+                  })}
                 </p>
                 <div
-                  style={{ gridRow: 4, gridColumnStart: 1, gridColumnEnd: 3 }}
+                  style={{
+                    gridRow: 3,
+                    gridColumnStart: 1,
+                    gridColumnEnd: 3,
+                    display:'flex',
+                    flexDirection: 'column',
+                    gap: '5px',
+                  }}
                 >
-                  <p> COMMENTS:</p>
+                  <div>
+                  <p
+                    style={{
+                     
+                      textAlign: "justify",
+                    }}
+                  >
+                    {postd.post.content}
+                  </p>
+                  </div>
+                  
+                  <div
+                    style={{ gridRow: 4, gridColumnStart: 1, gridColumnEnd: 3 }}
+                  >
+                    <p> COMMENTS:</p>
+                  </div>
+                  <div>
+                  <Link to="/">CLOSE</Link>
+                  </div>
                 </div>
-                <Link to="/">CLOSE</Link>
+
+                
               </>
             )}
           </>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { urlAddresses } from "./assets/urlAddresses";
 import { homepage } from "./mock_data";
 
@@ -37,7 +37,7 @@ function App() {
     if ((token !== null) ) {
       refreshPosts();
     }
-  }, []);
+  }, [token]);
 
   /* async function getData(url) {
     try {
@@ -52,8 +52,7 @@ function App() {
   } ACTIVAR LUEGO DE PROBAR*/
 
   async function refreshPosts() {
-    console.log("refresh");
-
+  
     fetch(url_mywork, {
       method: "GET",
       credentials: "same-origin",
@@ -64,7 +63,6 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.user !== undefined) {
           setUser(data.user);
           return data.user;

@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ErrorMessage } from "./ErrorMessage";
 import { useOutletContext } from "react-router-dom";
 import { urlAddresses } from "../assets/urlAddresses";
@@ -9,22 +8,12 @@ const url = urlAddresses.new_post;
 
 const NewPost = () => {
   titleDiv.textContent = "BLOG | NEW POST";
-  const {
-    allowed,
-    user,
-    setUser,
-    token,
-    setToken,
-    responseData,
-    setResponseData,
-    refreshPosts,
-  } = useOutletContext();
+  const { user, token, responseData, setResponseData, refreshPosts } =
+    useOutletContext();
 
-  const url_mywork = urlAddresses.my_work;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(false);
-  console.log(responseData);
 
   const handleChange = (event) => {
     setPublished(event.target.value);
@@ -37,7 +26,7 @@ const NewPost = () => {
       content: `${content}`,
       published: published,
     };
-    console.log(postdata);
+
     await fetch(url, {
       method: "POST",
       credentials: "same-origin",

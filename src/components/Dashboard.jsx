@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Outlet, useOutletContext, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { urlAddresses } from "../assets/urlAddresses";
 
 const titleDiv = document.querySelector("title");
 
 const Dashboard = () => {
+ 
   titleDiv.textContent = "BLOG | DASHBOARD";
   const url_mywork = urlAddresses.my_work;
   const url_posts = urlAddresses.posts;
@@ -19,22 +20,23 @@ const Dashboard = () => {
   const [responseData, setResponseData] = useState("{}");
 
   useEffect(() => {
-    console.log(location.state);
-    if (location.state !== null) {
-      const { user, token } = location.state;
-      console.log(user);
-      setUser(user);
-      setToken(token);
-      if (user !== null) {
-        if (user.role === "AUTHOR") {
-          setAllowed(true);
+   
+      if (location.state !== null) {
+        const { user, token } = location.state;
+        setUser(user);
+        setToken(token);
+        if (user !== null) {
+          if (user.role === "AUTHOR") {
+            setAllowed(true);
+          }
         }
       }
-    }
-    if (location.state===null){
-      navigate("/");
-    }
-  }, []);
+      if (location.state === null) {
+        navigate("/");
+      }
+    
+    
+  },[allowed]);
 
   function navigateToNewPost() {
     setResponseData("{}");
@@ -46,8 +48,6 @@ const Dashboard = () => {
   }
 
   async function refreshPosts() {
-    console.log("refresh");
-
     fetch(url_mywork, {
       method: "GET",
       credentials: "same-origin",
@@ -58,7 +58,6 @@ const Dashboard = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.user !== undefined) {
           setUser(data.user);
           return data.user;
@@ -70,19 +69,18 @@ const Dashboard = () => {
   }
 
   async function updatePutMethod(arg1, arg2, arg3, arg4) {
-    
     const post_id = arg1;
     const title = arg2;
     const content = arg3;
     const published = arg4;
     const url_update = `${url_posts}/${user.id}/${post_id}`;
-    console.log(url_update);
+
     const putdata = {
       title: `${title}`,
       content: `${content}`,
       published: published,
     };
-    console.log(putdata);
+
     fetch(url_update, {
       method: "PUT",
       credentials: "same-origin",
@@ -95,7 +93,6 @@ const Dashboard = () => {
       .then((res) => res.json())
       .then((data) => {
         setResponseData(data);
-        console.log(data);
         refreshPosts();
       })
       .catch((err) => {
@@ -162,8 +159,11 @@ const Dashboard = () => {
       ) : (
         <>
           <h2> Sorry, maybe: </h2>
-          <h2 style={{textAlign:'left'}}> - your session expired </h2>
-          <h2 style={{textAlign:'left'}}> - your role does not have access to this content</h2>
+          <h2 style={{ textAlign: "left" }}> - your session expired </h2>
+          <h2 style={{ textAlign: "left" }}>
+            {" "}
+            - your role does not have access to this content
+          </h2>
           <div className="dashboardHead">
             <Link to="/logout">LOGOUT</Link>
             <Link to="/">HOME</Link>
