@@ -32,7 +32,6 @@ const MyWork = () => {
     const toggleTo = arg4 === true ? false : true;
     setResponseData("{}");
     await updatePutMethod(id, title, content, toggleTo);
-    
     navigate("/dashboard");
   }
 
@@ -77,7 +76,11 @@ const MyWork = () => {
                   >
                     {post.published === true ? "unpublish" : "publish"}
                   </button>
-                  <button style={{ height: "60px" }}>EDIT</button>
+                  <button onClick={() => {
+                      setResponseData("{}");
+                      navigate(`/dashboard/update_post/${user.id}/${post.id}`);
+                    }}
+                  style={{ height: "60px" }}>EDIT</button>
                 </li>
               );
             })}

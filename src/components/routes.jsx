@@ -43,7 +43,7 @@ const routes = [
         element: <MyWork />,
       },
       {
-        path: "update/:authorid/:postid",
+        path: "update_post/:authorid/:postid",
         element: <Update />,
       },
     ],

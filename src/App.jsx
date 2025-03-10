@@ -30,6 +30,8 @@ function App() {
   console.log(userlogin);
   console.log(token);
 
+// AGREGAR UN MEMOIZE PARA CONSERVAR LA DATA ALLPOST CUANDO NO HA VARIADO
+
   useEffect(() => {
     /* getData(url); */
     if ((token !== null) ) {
