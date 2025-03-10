@@ -1,22 +1,7 @@
 const homepage = {
   title: "BLOG | HOMEPAGE",
   message: "Welcome to the API ",
-  allPosts: [
-    {
-      id: "1493c213-b64a-4519-880f-fb0134b64766",
-      createdAt: "2025-03-05T22:15:54.565Z",
-      title: "Lorem Ipsum",
-      author: { username: "cuartousuario" },
-      authorId: 6,
-    },
-    {
-      id: "a811e97e-ce2c-46c6-870b-3e498ff4a971",
-      createdAt: "2025-03-07T20:37:07.782Z",
-      title: "Sed rutrum odio ac tellus vestibulum interdum ac et massa",
-      author: { username: "quintoususario" },
-      authorId: 7,
-    },
-  ],
+  allPosts: [{"id":"1493c213-b64a-4519-880f-fb0134b64766","createdAt":"2025-03-05T22:15:54.565Z","title":"Lorem Ipsum","author":{"username":"cuartousuario"},"authorId":6},{"id":"a811e97e-ce2c-46c6-870b-3e498ff4a971","createdAt":"2025-03-07T20:37:07.782Z","title":"Sed rutrum odio ac tellus vestibulum interdum ac et massa","author":{"username":"quintoususario"},"authorId":7},{"id":"a0508d69-5550-4e90-b9f6-9fda31f79cdc","createdAt":"2025-03-07T22:58:45.183Z","title":"Maecenas non leo vestibulum","author":{"username":"sextoususario"},"authorId":9},{"id":"28d2d379-0e12-47da-af50-02f1e5066b24","createdAt":"2025-03-08T00:47:37.049Z","title":"Integer tincidunt nisi ac enim elementum pellentesque.","author":{"username":"cuartousuario"},"authorId":6},{"id":"4b30ccb4-697d-416f-ac28-4061e539d43d","createdAt":"2025-03-08T00:59:17.236Z","title":"Suspendisse in justo id metus elementum","author":{"username":"sextoususario"},"authorId":9}],
 };
 
 const user = {

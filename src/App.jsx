@@ -7,6 +7,7 @@ import "./App.css";
 
 const titleDiv = document.querySelector("title");
 const url = urlAddresses.home;
+const url_mywork = urlAddresses.my_work;
 
 function App() {
   titleDiv.textContent = "BLOG | HOME";
@@ -14,6 +15,8 @@ function App() {
   const navigate = useNavigate();
 
   const [blogdata, setBlogdata] = useState(initialData);
+  const [user, setUser] = useState(null);
+  console.log(user);
 
   const [token, setToken] = useState(
     localStorage.getItem("token") !== undefined
@@ -27,11 +30,14 @@ function App() {
   console.log(userlogin);
   console.log(token);
 
-  /* useEffect(() => {
-    getData(url);
-  }, []); 
+  useEffect(() => {
+    /* getData(url); */
+    if ((token !== null) ) {
+      refreshPosts();
+    }
+  }, []);
 
-  async function getData(url) {
+  /* async function getData(url) {
     try {
       const response = await fetch(url);  
       const responseData = await response.json();
@@ -42,6 +48,30 @@ function App() {
       console.log(error);
     }
   } ACTIVAR LUEGO DE PROBAR*/
+
+  async function refreshPosts() {
+    console.log("refresh");
+
+    fetch(url_mywork, {
+      method: "GET",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.user !== undefined) {
+          setUser(data.user);
+          return data.user;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   function navigateToDetails(arg1) {
     navigate(arg1);
@@ -66,6 +96,15 @@ function App() {
             <div>
               <Link to="logout">LOGOUT</Link>
             </div>
+            <div>
+              <Link
+                to="/dashboard"
+                replace={true}
+                state={{ user: user, token: token }}
+              >
+                DASHBOARD
+              </Link>
+            </div>
           </>
         )}
       </nav>
@@ -82,10 +121,11 @@ function App() {
             {blogdata.allPosts.map((post) => {
               return (
                 <li key={post.id}>
-                  <p style={{maxWidth:'200px'}}>{post.title}</p>
+                  <p style={{ maxWidth: "200px" }}>{post.title}</p>
                   <p>{post.author.username}</p>
 
-                  <button style={{height:'55px'}}
+                  <button
+                    style={{ height: "55px" }}
                     onClick={() => {
                       navigateToDetails(`posts/${post.authorId}/${post.id}`);
                     }}

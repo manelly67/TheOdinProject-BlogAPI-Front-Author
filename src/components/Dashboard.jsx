@@ -2,11 +2,14 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Outlet, useOutletContext, useNavigate } from "react-router-dom";
+import { urlAddresses } from "../assets/urlAddresses";
 
 const titleDiv = document.querySelector("title");
 
 const Dashboard = () => {
   titleDiv.textContent = "BLOG | DASHBOARD";
+  const url_mywork = urlAddresses.my_work;
+  const url_posts = urlAddresses.posts;
 
   const navigate = useNavigate();
   const [allowed, setAllowed] = useState(false);
@@ -15,11 +18,6 @@ const Dashboard = () => {
   const location = useLocation();
   const [responseData, setResponseData] = useState("{}");
 
-  /* location.state = {
-    user: { id: 3, role: "AUTHOR", username: "someone" },
-    token: "tok",
-  }; 
- */
   useEffect(() => {
     console.log(location.state);
     if (location.state !== null) {
@@ -27,9 +25,14 @@ const Dashboard = () => {
       console.log(user);
       setUser(user);
       setToken(token);
-      if (user.role === "AUTHOR") {
-        setAllowed(true);
+      if (user !== null) {
+        if (user.role === "AUTHOR") {
+          setAllowed(true);
+        }
       }
+    }
+    if (location.state===null){
+      navigate("/");
     }
   }, []);
 
@@ -40,6 +43,63 @@ const Dashboard = () => {
 
   function navigateToMyWork() {
     navigate("/dashboard/my_work");
+  }
+
+  async function refreshPosts() {
+    console.log("refresh");
+
+    fetch(url_mywork, {
+      method: "GET",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.user !== undefined) {
+          setUser(data.user);
+          return data.user;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  async function updatePutMethod(arg1, arg2, arg3, arg4, event) {
+    event.preventDefault();
+    const post_id = arg1;
+    const title = arg2;
+    const content = arg3;
+    const published = arg4;
+    const url_update = `${url_posts}/${user.id}/${post_id}`;
+    console.log(url_update);
+    const putdata = {
+      title: `${title}`,
+      content: `${content}`,
+      published: published.toString(),
+    };
+    console.log(putdata);
+    fetch(url_update, {
+      method: "PUT",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(putdata),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setResponseData(data);
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -72,34 +132,37 @@ const Dashboard = () => {
             </button>
 
             <div>
-            <button
-              onClick={() => {
-                navigate("/logout");
-              }}
-            >
-              LOGOUT
-            </button>
+              <button
+                onClick={() => {
+                  navigate("/logout");
+                }}
+              >
+                LOGOUT
+              </button>
             </div>
           </div>
 
           <div>
             <Outlet
               context={{
-                navigate,
                 allowed,
                 user,
                 setUser,
                 token,
                 setToken,
                 responseData,
-                setResponseData
+                setResponseData,
+                refreshPosts,
+                updatePutMethod,
               }}
             />
           </div>
         </>
       ) : (
         <>
-          <h2> sorry, your role does not have access to this content</h2>
+          <h2> Sorry, maybe: </h2>
+          <h2 style={{textAlign:'left'}}> - your session expired </h2>
+          <h2 style={{textAlign:'left'}}> - your role does not have access to this content</h2>
           <div className="dashboardHead">
             <Link to="/logout">LOGOUT</Link>
             <Link to="/">HOME</Link>

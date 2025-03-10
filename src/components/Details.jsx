@@ -13,15 +13,14 @@ const Details = () => {
   const { postid } = useParams();
   console.log(authorid);
   console.log(postid);
-  const url = `${urlAddresses.post_details}${authorid}/${postid}`;
+  const url = `${urlAddresses.posts}/${authorid}/${postid}`;
   console.log(url);
 
   useEffect(() => {
-    setPostd(post);
-
-   /*  if (postd === null) {
+    /* setPostd(post); */
+   if (postd === null) {
       getData(url);
-    }  */
+    } 
   }, []);
 
   async function getData(url) {

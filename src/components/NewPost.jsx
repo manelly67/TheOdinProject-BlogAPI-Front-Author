@@ -7,87 +7,63 @@ import { urlAddresses } from "../assets/urlAddresses";
 const titleDiv = document.querySelector("title");
 const url = urlAddresses.new_post;
 
-
 const NewPost = () => {
-  
-titleDiv.textContent = "BLOG | NEW POST";
-const {
-  navigate,
-  allowed,
-  user,
-  setUser,
-  token,
-  setToken,
-  responseData,
-  setResponseData,
-} = useOutletContext();
+  titleDiv.textContent = "BLOG | NEW POST";
+  const {
+    allowed,
+    user,
+    setUser,
+    token,
+    setToken,
+    responseData,
+    setResponseData,
+    refreshPosts,
+  } = useOutletContext();
 
-const url_mywork = urlAddresses.my_work;
-const [title, setTitle] = useState("");
-const [content, setContent] = useState("");
-const [published, setPublished] = useState(false);
-console.log(responseData);
+  const url_mywork = urlAddresses.my_work;
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [published, setPublished] = useState(false);
+  console.log(responseData);
 
-const handleChange = (event) => {
-  setPublished(event.target.value);
-};
+  const handleChange = (event) => {
+    setPublished(event.target.value);
+  };
 
-function handleSubmit(e){
+  async function handleSubmit(e) {
     e.preventDefault();
     const postdata = {
-      title : `${title}`,
-      content : `${content}`,
-      published : published,
+      title: `${title}`,
+      content: `${content}`,
+      published: published.toString(),
     };
     console.log(postdata);
-    fetch( url, {
+    await fetch(url, {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        'Content-Type': 'application/json',
-        'authorization' : `Bearer ${token}`,
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(postdata),
     })
       .then((res) => res.json())
       .then((data) => {
         setResponseData(data);
-        
       })
       .catch((err) => {
         console.log(err);
       });
 
-  refreshPosts();
+    refreshPosts();
   }
-
-  async function refreshPosts(){
-   
-    fetch( url_mywork, {
-      method: "GET",
-      credentials: "same-origin",
-      headers: {
-        'Content-Type': 'application/json',
-        'authorization' : `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if(data.user!==undefined){
-          setUser(data.user);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
 
   return (
     <>
       <div className="error">
-        {responseData.err !== undefined ? (<p>{responseData.err.message}/ logout: new login is required</p>):null}
+        {responseData.err !== undefined ? (
+          <p>{responseData.err.message}/ logout: new login is required</p>
+        ) : null}
       </div>
 
       {user === null ? (
@@ -96,7 +72,7 @@ function handleSubmit(e){
         </>
       ) : (
         <>
-          {responseData.text !== undefined  ? (
+          {responseData.text !== undefined ? (
             <>
               <p>{responseData.text} </p>
             </>

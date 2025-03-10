@@ -1,25 +1,49 @@
 import { useState, useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { urlAddresses } from "../assets/urlAddresses";
 
 const titleDiv = document.querySelector("title");
 
 const MyWork = () => {
   titleDiv.textContent = "BLOG | MY WORK";
-  const { navigate, allowed, user, setUser, token, setToken } =
-    useOutletContext();
+  
+  const {
+    allowed,
+    user,
+    setUser,
+    token,
+    setToken,
+    responseData,
+    setResponseData,
+    refreshPosts,
+    updatePutMethod,
+  } = useOutletContext();
+  const navigate = useNavigate();
   const [myblogs, setMyblogs] = useState(
     user === undefined ? null : user.posts
   );
 
-  // TOMAR LA RUTA DE metodo PUT 
-  function togglePublish(){
 
+  async function togglePublish(arg1, arg2, arg3, arg4,event) {
+    event.preventDefault();
+    const id = arg1;
+    const title = arg2;
+    const content = arg3;
+    const toggleTo = arg4 === true ? false : true;
+    setResponseData("{}");
+    await updatePutMethod(id, title, content, toggleTo,event);
+    await refreshPosts();
+    navigate("/dashboard");
   }
 
+  
 
   return (
     <>
+      <div className="error">
+        {responseData.err !== undefined ? (<p>{responseData.err.message}/ logout: new login is required</p>):null}
+      </div>
+
       <h3>AUTHOR: {user.username}</h3>
       <div className="blog-content">
         {!myblogs ? (
@@ -33,11 +57,24 @@ const MyWork = () => {
                   <p style={{ width: "200px" }}>
                     {post.content.slice(0, 40)}...
                   </p>
-                 { post.published === true ? 
-                  <p>status: "published" </p> :
-                  <p>status: "unpublished" </p>}
+                  {post.published === true ? (
+                    <p>status: "published" </p>
+                  ) : (
+                    <p>status: "unpublished" </p>
+                  )}
 
-                  <button style={{ height: "60px" }}>
+                  <button
+                    style={{ height: "60px" }}
+                    onClick={(event) => {
+                      togglePublish(
+                        post.id,
+                        post.title,
+                        post.content,
+                        post.published,
+                        event,
+                      );
+                    }}
+                  >
                     {post.published === true ? "unpublish" : "publish"}
                   </button>
                   <button style={{ height: "60px" }}>EDIT</button>
