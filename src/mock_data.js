@@ -43,4 +43,11 @@ const post = {
 export { homepage, user, post };
 
 
+const received = false;
+const str = received.toString();
+const bool = str.toLowerCase() === "true";
 
+
+console.log(received);
+console.log(str);
+console.log(bool);

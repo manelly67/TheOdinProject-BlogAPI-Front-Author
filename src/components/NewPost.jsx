@@ -35,7 +35,7 @@ const NewPost = () => {
     const postdata = {
       title: `${title}`,
       content: `${content}`,
-      published: published.toString(),
+      published: published,
     };
     console.log(postdata);
     await fetch(url, {

@@ -31,8 +31,8 @@ const MyWork = () => {
     const content = arg3;
     const toggleTo = arg4 === true ? false : true;
     setResponseData("{}");
-    await updatePutMethod(id, title, content, toggleTo,event);
-    await refreshPosts();
+    await updatePutMethod(id, title, content, toggleTo);
+    
     navigate("/dashboard");
   }
 

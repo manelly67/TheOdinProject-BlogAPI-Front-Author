@@ -69,8 +69,8 @@ const Dashboard = () => {
       });
   }
 
-  async function updatePutMethod(arg1, arg2, arg3, arg4, event) {
-    event.preventDefault();
+  async function updatePutMethod(arg1, arg2, arg3, arg4) {
+    
     const post_id = arg1;
     const title = arg2;
     const content = arg3;
@@ -80,7 +80,7 @@ const Dashboard = () => {
     const putdata = {
       title: `${title}`,
       content: `${content}`,
-      published: published.toString(),
+      published: published,
     };
     console.log(putdata);
     fetch(url_update, {
@@ -96,6 +96,7 @@ const Dashboard = () => {
       .then((data) => {
         setResponseData(data);
         console.log(data);
+        refreshPosts();
       })
       .catch((err) => {
         console.log(err);
