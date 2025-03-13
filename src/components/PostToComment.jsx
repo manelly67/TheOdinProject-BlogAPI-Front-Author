@@ -9,9 +9,8 @@ titleDiv.textContent = "BLOG | DETAILS";
 
 const PostToComment = () => {
   const [postd, setPostd] = useState(null);
-  /* const postd = post; */
-
-  const { user, token, responseData, setResponseData, refreshPosts } =
+ 
+  const { user, token, responseData, setResponseData, refreshPosts, deleteComment } =
     useOutletContext();
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -19,6 +18,7 @@ const PostToComment = () => {
   const { postid } = useParams();
   const url = `${urlAddresses.posts}/${authorid}/${postid}`;
   const url_comment = `${urlAddresses.comments}/${postid}/new`;
+  
 
   useEffect(() => {
     if (postd === null) {
@@ -31,6 +31,7 @@ const PostToComment = () => {
       const response = await fetch(url);
       const responseData = await response.json();
       setPostd(responseData);
+      setResponseData("{}");
     } catch (error) {
       alert("Something was wrong. try again later");
       console.log(error);
@@ -103,7 +104,8 @@ const PostToComment = () => {
                                 <button
                                   style={{ height: "55px" }}
                                   onClick={() => {
-                                    /* escribir la funcion delete */
+                                    const url_delete_comment = `${urlAddresses.comments}/${postid}/${comment.id}`;
+                                    deleteComment(url_delete_comment,token);                    
                                   }}
                                 >
                                   DELETE
@@ -138,7 +140,7 @@ const PostToComment = () => {
           user={user}
           token={token}
           url_comment={url_comment}
-          responseData={"{}"}
+          responseData={responseData}
           setResponseData={setResponseData}
           refreshPosts={refreshPosts}
         />

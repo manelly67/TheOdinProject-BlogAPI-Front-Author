@@ -104,6 +104,33 @@ const Dashboard = () => {
       });
   }
 
+  async function deleteComment(url_delete,token) {
+    console.log('funcion borrar comentario');
+    console.log(url_delete);
+    console.log(token);
+    fetch(url_delete, {
+      method: "DELETE",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setResponseData(data);
+        refreshPosts();
+        navigateToComments();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+
+  }
+
   return (
     <>
       {allowed ? (
@@ -135,6 +162,7 @@ const Dashboard = () => {
 
             <button
               onClick={() => {
+                setResponseData("{}");
                 navigateToComments();
               }}
             >
@@ -164,6 +192,7 @@ const Dashboard = () => {
                 setResponseData,
                 refreshPosts,
                 updatePutMethod,
+                deleteComment,
               }}
             />
           </div>

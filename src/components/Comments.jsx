@@ -6,29 +6,29 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 const titleDiv = document.querySelector("title");
 
 const Comments = () => {
-        
-    const url = urlAddresses.home;
-    titleDiv.textContent = "BLOG | COMMENTS";
+  const url = urlAddresses.home;
+  titleDiv.textContent = "BLOG | COMMENTS";
 
-    const { user, token, responseData, setResponseData } =
-    useOutletContext();
-    const [blogdata, setBlogdata] = useState("{}");
-    const [allPosts, setAllPosts] = useState(blogdata.allPosts!== undefined ? blogdata.allPosts : null);
-    const navigate = useNavigate();
+  const { user, token, responseData, setResponseData } = useOutletContext();
+  const [blogdata, setBlogdata] = useState("{}");
+  const [allPosts, setAllPosts] = useState(
+    blogdata.allPosts !== undefined ? blogdata.allPosts : null
+  );
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        /* getData(url); */
-        setBlogdata(homepage);
-      }, [allPosts]);
+  useEffect(() => {
+    getData(url);
+    /* setBlogdata(homepage); */
+  }, [allPosts]);
 
-      function navigateToDetails(arg) {
-        console.log(arg);
-        navigate(arg);
-      }
+  function navigateToDetails(arg) {
+    console.log(arg);
+    navigate(arg);
+  }
 
-    /* async function getData(url) {
+  async function getData(url) {
     try {
-      const response = await fetch(url);  
+      const response = await fetch(url);
       const responseData = await response.json();
       setBlogdata(responseData);
       return setBlogdata;
@@ -36,15 +36,17 @@ const Comments = () => {
       alert("Something was wrong. try again later");
       console.log(error);
     }
-  } ACTIVAR LUEGO DE PROBAR*/
+  }
 
-return (
+  return (
     <>
-   
-    <div className="blog-content">
+      <div className="blog-content">
         <h2>Comments Dashboard</h2>
 
-        <p> {blogdata.message === undefined ? null : blogdata.message} </p>
+        <p style={{ color: "blue" }}>
+          {" "}
+          {responseData.text === undefined ? null : responseData.text}{" "}
+        </p>
 
         {!blogdata.allPosts ? (
           <div>Loading...</div>
@@ -59,8 +61,10 @@ return (
                   <button
                     style={{ height: "55px" }}
                     onClick={() => {
-                        navigateToDetails(`/dashboard/posts_comments/${post.authorId}/${post.id}`);
-                      }}
+                      navigateToDetails(
+                        `/dashboard/posts_comments/${post.authorId}/${post.id}`
+                      );
+                    }}
                   >
                     DETAILS
                   </button>
@@ -72,9 +76,8 @@ return (
           <div>There are no posts published!</div>
         )}
       </div>
-      </>
-);
-
+    </>
+  );
 };
 
 export default Comments;
