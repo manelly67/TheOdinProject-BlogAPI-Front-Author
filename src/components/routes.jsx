@@ -8,14 +8,15 @@ import Dashboard from "./Dashboard";
 import NewPost from "./NewPost";
 import MyWork from "./MyWork";
 import Update from "./Update";
-
+import Comments from "./Comments";
+import PostToComment from "./PostToComment";
 
 const routes = [
   {
     index: true,
     path: "/",
     element: <App />,
-    
+
     errorElement: <ErrorPage />,
   },
   {
@@ -33,7 +34,7 @@ const routes = [
   {
     path: "dashboard",
     element: <Dashboard />,
-    children:[
+    children: [
       {
         path: "new",
         element: <NewPost />,
@@ -46,13 +47,20 @@ const routes = [
         path: "update_post/:authorid/:postid",
         element: <Update />,
       },
+      {
+        path: "posts_comments",
+        element: <Comments />,
+      },
+      {
+        path: "posts_comments/:authorid/:postid",
+        element: <PostToComment />,
+      },
     ],
   },
   {
     path: "posts/:authorid/:postid",
     element: <Details />,
   },
- 
 ];
 
 export default routes;

@@ -1,13 +1,24 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { urlAddresses } from "../assets/urlAddresses";
+import { post } from "../mock_data";
+import { useOutletContext, useNavigate, useParams } from "react-router-dom";
+import NewComment from "./NewComment";
 
-const Details = () => {
+const titleDiv = document.querySelector("title");
+titleDiv.textContent = "BLOG | DETAILS";
+
+const PostToComment = () => {
   const [postd, setPostd] = useState(null);
+  /* const postd = post; */
 
+  const { user, token, responseData, setResponseData, refreshPosts } =
+    useOutletContext();
+
+  const [activeIndex, setActiveIndex] = useState(0);
   const { authorid } = useParams();
   const { postid } = useParams();
   const url = `${urlAddresses.posts}/${authorid}/${postid}`;
+  const url_comment = `${urlAddresses.comments}/${postid}/new`;
 
   useEffect(() => {
     if (postd === null) {
@@ -28,7 +39,6 @@ const Details = () => {
 
   return (
     <>
-      <Link to="/">HOME</Link>
       <article className="postDetails">
         {postd === null ? (
           <>
@@ -37,7 +47,7 @@ const Details = () => {
         ) : (
           <>
             {postd.text !== undefined ? (
-              <p>{postd.text}</p>
+              <p>null</p>
             ) : (
               <>
                 <h2
@@ -61,41 +71,43 @@ const Details = () => {
                     gridRow: 3,
                     gridColumnStart: 1,
                     gridColumnEnd: 3,
-                    display:'flex',
-                    flexDirection: 'column',
-                    gap: '5px',
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "5px",
                   }}
                 >
                   <div>
-                  <p
-                    style={{
-                     
-                      textAlign: "justify",
-                    }}
-                  >
-                    {postd.post.content}
-                  </p>
+                    <p
+                      style={{
+                        textAlign: "justify",
+                      }}
+                    >
+                      {postd.post.content}
+                    </p>
                   </div>
-                  
+
                   <div>
                     <p> COMMENTS:</p>
                     {postd.post.comments.length > 0 ? (
                       <>
-                        <ul style={{display: "flex",
-                    flexDirection: "column",
-                    gap: "5px",}}>
+                        <ul style={{display: "flex",flexDirection: "column", gap: "5px",}}>
                           {postd.post.comments.map((comment) => {
                             return (
-                              <li key={comment.id} style={{display: "flex",
-                                flexDirection: "row",
-                                gap: "5px",}}>
+                              <li key={comment.id} style={{display: "flex",flexDirection: "row", gap: "5px",}}>
                                 <p style={{ maxWidth: "200px" }}>
                                   {comment.text}
                                 </p>
                                 <p>{comment.user.username}</p>
-
                                 <p>{comment.createdAt}</p>
-                                {/* agregar en el prisma querie post el true para createdat */}
+
+                                <button
+                                  style={{ height: "55px" }}
+                                  onClick={() => {
+                                    /* escribir la funcion delete */
+                                  }}
+                                >
+                                  DELETE
+                                </button>
                               </li>
                             );
                           })}
@@ -105,20 +117,34 @@ const Details = () => {
                       <div>This posts has no comments!</div>
                     )}
                   </div>
-
-                  <div>
-                  <Link to="/">CLOSE</Link>
-                  </div>
                 </div>
-
-                
               </>
             )}
           </>
         )}
       </article>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: "5px",
+        }}
+      >
+        <NewComment
+          isActive={activeIndex === 1}
+          onShow={() => setActiveIndex(1)}
+          setActiveIndex={setActiveIndex}
+          user={user}
+          token={token}
+          url_comment={url_comment}
+          responseData={"{}"}
+          setResponseData={setResponseData}
+          refreshPosts={refreshPosts}
+        />
+      </div>
     </>
   );
 };
 
-export default Details;
+export default PostToComment;

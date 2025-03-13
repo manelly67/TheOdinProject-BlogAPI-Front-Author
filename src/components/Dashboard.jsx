@@ -47,6 +47,10 @@ const Dashboard = () => {
     navigate("/dashboard/my_work");
   }
 
+  function navigateToComments(){
+    navigate("/dashboard/posts_comments");
+  }
+
   async function refreshPosts() {
     fetch(url_mywork, {
       method: "GET",
@@ -127,6 +131,14 @@ const Dashboard = () => {
               }}
             >
               MY WORK
+            </button>
+
+            <button
+              onClick={() => {
+                navigateToComments();
+              }}
+            >
+              COMMENTS
             </button>
 
             <div>
