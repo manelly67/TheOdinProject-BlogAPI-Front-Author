@@ -52,8 +52,9 @@ const Details = () => {
                 </h3>
                 <p style={{ gridRow: 2, gridColumnStart: 2, gridColumnEnd: 3 }}>
                   Publish at:{" "}
-                  {new Date(postd.post.createdAt).toLocaleString("en-US", {
+                  {new Date(postd.post.createdAt).toLocaleString("es-US", {
                     timeZone: "America/Guayaquil",
+                    dateStyle: "medium",
                   })}
                 </p>
                 <div
@@ -61,41 +62,57 @@ const Details = () => {
                     gridRow: 3,
                     gridColumnStart: 1,
                     gridColumnEnd: 3,
-                    display:'flex',
-                    flexDirection: 'column',
-                    gap: '5px',
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "5px",
                   }}
                 >
                   <div>
-                  <p
-                    style={{
-                     
-                      textAlign: "justify",
-                    }}
-                  >
-                    {postd.post.content}
-                  </p>
+                    <p
+                      style={{
+                        textAlign: "justify",
+                      }}
+                    >
+                      {postd.post.content}
+                    </p>
                   </div>
-                  
+
                   <div>
                     <p> COMMENTS:</p>
                     {postd.post.comments.length > 0 ? (
                       <>
-                        <ul style={{display: "flex",
-                    flexDirection: "column",
-                    gap: "5px",}}>
+                        <ul
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "5px",
+                          }}
+                        >
                           {postd.post.comments.map((comment) => {
                             return (
-                              <li key={comment.id} style={{display: "flex",
-                                flexDirection: "row",
-                                gap: "5px",}}>
+                              <li
+                                key={comment.id}
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  gap: "5px",
+                                }}
+                              >
                                 <p style={{ maxWidth: "200px" }}>
                                   {comment.text}
                                 </p>
                                 <p>{comment.user.username}</p>
 
-                                <p>{comment.createdAt}</p>
-                                {/* agregar en el prisma querie post el true para createdat */}
+                                <p>
+                                  {new Date(comment.createdAt).toLocaleString(
+                                    "es-US",
+                                    {
+                                      timeZone: "America/Guayaquil",
+                                      dateStyle: "medium",
+                                      timeStyle: "short",
+                                    }
+                                  )}
+                                </p>
                               </li>
                             );
                           })}
@@ -107,11 +124,9 @@ const Details = () => {
                   </div>
 
                   <div>
-                  <Link to="/">CLOSE</Link>
+                    <Link to="/">CLOSE</Link>
                   </div>
                 </div>
-
-                
               </>
             )}
           </>

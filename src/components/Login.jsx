@@ -2,14 +2,13 @@ import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { useState } from "react";
 import { urlAddresses } from "../assets/urlAddresses";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 const titleDiv = document.querySelector("title");
 const url = urlAddresses.login;
 
 const Login = () => {
- 
-  titleDiv.textContent = 'BLOG | LOGIN';
+  titleDiv.textContent = "BLOG | LOGIN";
   const location = useLocation();
   const { token } = location.state;
   const [responseData, setResponseData] = useState("{}");
@@ -22,19 +21,18 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-    
   function handleSubmit(e) {
     e.preventDefault();
     const logindata = {
-     username,
-     password,
+      username,
+      password,
     };
     fetch(`${url}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "*/*",
-        "Connection": "keep-alive",
+        Accept: "*/*",
+        Connection: "keep-alive",
       },
       body: JSON.stringify(logindata),
     })
@@ -57,12 +55,14 @@ const Login = () => {
       });
   }
 
-
   return (
     <>
       <Link to="/">HOME</Link>
       {activeUser === null ? (
         <>
+          <p style={{ color: "green" }}>
+            for study purposes, this login will grant you a 1 hour token.
+          </p>
           <h2>Login in your account:</h2>
           {responseData.errors === undefined ? null : (
             <p className="error"> {responseData.errors}</p>
@@ -118,8 +118,11 @@ const Login = () => {
           </div>
         </>
       ) : (
-        <Navigate to="/dashboard" replace={true} state={{ user: activeUser, token: activeToken }} />
-       
+        <Navigate
+          to="/dashboard"
+          replace={true}
+          state={{ user: activeUser, token: activeToken }}
+        />
       )}
     </>
   );

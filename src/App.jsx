@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { urlAddresses } from "./assets/urlAddresses";
-import { homepage } from "./mock_data";
 
 import "./App.css";
 
@@ -11,10 +10,14 @@ const url_mywork = urlAddresses.my_work;
 
 function App() {
   titleDiv.textContent = "BLOG | HOME";
-  const initialData = homepage;
+  const initialData = "{}";
   const navigate = useNavigate();
 
-  const [blogdata, setBlogdata] = useState(initialData);
+ const [blogdata, setBlogdata] = useState(initialData);
+ const allPosts = useMemo(()=>{
+  return blogdata.allPosts;
+ },[blogdata]);
+
   const [user, setUser] = useState(null);
   console.log(user);
 
@@ -30,18 +33,17 @@ function App() {
   console.log(userlogin);
   console.log(token);
 
-// AGREGAR UN MEMOIZE PARA CONSERVAR LA DATA ALLPOST CUANDO NO HA VARIADO
-
   useEffect(() => {
-    /* getData(url); */
-    if ((token !== null) ) {
+    getData(url);
+    if (token !== null) {
       refreshPosts();
     }
   }, [token]);
 
-  /* async function getData(url) {
+  
+  async function getData(url) {
     try {
-      const response = await fetch(url);  
+      const response = await fetch(url);
       const responseData = await response.json();
       setBlogdata(responseData);
       return setBlogdata;
@@ -49,10 +51,9 @@ function App() {
       alert("Something was wrong. try again later");
       console.log(error);
     }
-  } ACTIVAR LUEGO DE PROBAR*/
+  }
 
   async function refreshPosts() {
-  
     fetch(url_mywork, {
       method: "GET",
       credentials: "same-origin",
@@ -66,6 +67,9 @@ function App() {
         if (data.user !== undefined) {
           setUser(data.user);
           return data.user;
+        }else{
+          alert('token expired');
+          navigate("/logout");
         }
       })
       .catch((err) => {
@@ -114,11 +118,11 @@ function App() {
 
         <p> {blogdata.message === undefined ? null : blogdata.message} </p>
 
-        {!blogdata.allPosts ? (
+        {!allPosts ? (
           <div>Loading...</div>
-        ) : blogdata.allPosts.length > 0 ? (
+        ) : allPosts.length > 0 ? (
           <ul>
-            {blogdata.allPosts.map((post) => {
+            {allPosts.map((post) => {
               return (
                 <li key={post.id}>
                   <p style={{ maxWidth: "200px" }}>{post.title}</p>

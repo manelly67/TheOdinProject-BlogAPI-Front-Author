@@ -5,8 +5,15 @@ const titleDiv = document.querySelector("title");
 const MyWork = () => {
   titleDiv.textContent = "BLOG | MY WORK";
 
-  const { user, responseData, setResponseData, updatePutMethod } =
-    useOutletContext();
+  const {
+    user,
+    token,
+    responseData,
+    setResponseData,
+    updatePutMethod,
+    deletePost,
+    url_posts,
+  } = useOutletContext();
 
   const navigate = useNavigate();
   const myblogs = user === undefined ? null : user.posts;
@@ -74,7 +81,8 @@ const MyWork = () => {
                   </button>
                   <button
                     onClick={() => {
-                     
+                      const url_delete_post = `${url_posts}/${user.id}/${post.id}`;
+                      deletePost(url_delete_post, token);
                     }}
                     style={{ height: "60px" }}
                   >

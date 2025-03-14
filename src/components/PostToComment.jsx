@@ -9,16 +9,21 @@ titleDiv.textContent = "BLOG | DETAILS";
 
 const PostToComment = () => {
   const [postd, setPostd] = useState(null);
- 
-  const { user, token, responseData, setResponseData, refreshPosts, deleteComment } =
-    useOutletContext();
+
+  const {
+    user,
+    token,
+    responseData,
+    setResponseData,
+    refreshPosts,
+    deleteComment,
+  } = useOutletContext();
 
   const [activeIndex, setActiveIndex] = useState(0);
   const { authorid } = useParams();
   const { postid } = useParams();
   const url = `${urlAddresses.posts}/${authorid}/${postid}`;
   const url_comment = `${urlAddresses.comments}/${postid}/new`;
-  
 
   useEffect(() => {
     if (postd === null) {
@@ -63,8 +68,9 @@ const PostToComment = () => {
                 </h3>
                 <p style={{ gridRow: 2, gridColumnStart: 2, gridColumnEnd: 3 }}>
                   Publish at:{" "}
-                  {new Date(postd.post.createdAt).toLocaleString("en-US", {
+                  {new Date(postd.post.createdAt).toLocaleString("es-US", {
                     timeZone: "America/Guayaquil",
+                    dateStyle: "medium",
                   })}
                 </p>
                 <div
@@ -91,21 +97,43 @@ const PostToComment = () => {
                     <p> COMMENTS:</p>
                     {postd.post.comments.length > 0 ? (
                       <>
-                        <ul style={{display: "flex",flexDirection: "column", gap: "5px",}}>
+                        <ul
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "5px",
+                          }}
+                        >
                           {postd.post.comments.map((comment) => {
                             return (
-                              <li key={comment.id} style={{display: "flex",flexDirection: "row", gap: "5px",}}>
+                              <li
+                                key={comment.id}
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  gap: "5px",
+                                }}
+                              >
                                 <p style={{ maxWidth: "200px" }}>
                                   {comment.text}
                                 </p>
                                 <p>{comment.user.username}</p>
-                                <p>{comment.createdAt}</p>
+                                <p>
+                                  {new Date(comment.createdAt).toLocaleString(
+                                    "es-US",
+                                    {
+                                      timeZone: "America/Guayaquil",
+                                      dateStyle: "medium",
+                                      timeStyle: "short",
+                                    }
+                                  )}
+                                </p>
 
                                 <button
                                   style={{ height: "55px" }}
                                   onClick={() => {
                                     const url_delete_comment = `${urlAddresses.comments}/${postid}/${comment.id}`;
-                                    deleteComment(url_delete_comment,token);                    
+                                    deleteComment(url_delete_comment, token);
                                   }}
                                 >
                                   DELETE

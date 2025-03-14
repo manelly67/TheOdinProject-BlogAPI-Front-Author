@@ -7,10 +7,10 @@ import { urlAddresses } from "../assets/urlAddresses";
 const titleDiv = document.querySelector("title");
 
 const Dashboard = () => {
- 
   titleDiv.textContent = "BLOG | DASHBOARD";
   const url_mywork = urlAddresses.my_work;
   const url_posts = urlAddresses.posts;
+  const url_comments = urlAddresses.comments;
 
   const navigate = useNavigate();
   const [allowed, setAllowed] = useState(false);
@@ -20,23 +20,20 @@ const Dashboard = () => {
   const [responseData, setResponseData] = useState("{}");
 
   useEffect(() => {
-   
-      if (location.state !== null) {
-        const { user, token } = location.state;
-        setUser(user);
-        setToken(token);
-        if (user !== null) {
-          if (user.role === "AUTHOR") {
-            setAllowed(true);
-          }
+    if (location.state !== null) {
+      const { user, token } = location.state;
+      setUser(user);
+      setToken(token);
+      if (user !== null) {
+        if (user.role === "AUTHOR") {
+          setAllowed(true);
         }
       }
-      if (location.state === null) {
-        navigate("/");
-      }
-    
-    
-  },[allowed]);
+    }
+    if (location.state === null) {
+      navigate("/");
+    }
+  }, [allowed]);
 
   function navigateToNewPost() {
     setResponseData("{}");
@@ -47,7 +44,7 @@ const Dashboard = () => {
     navigate("/dashboard/my_work");
   }
 
-  function navigateToComments(){
+  function navigateToComments() {
     navigate("/dashboard/posts_comments");
   }
 
@@ -104,8 +101,8 @@ const Dashboard = () => {
       });
   }
 
-  async function deleteComment(url_delete,token) {
-    console.log('funcion borrar comentario');
+  async function deleteComment(url_delete, token) {
+    console.log("funcion borrar comentario");
     console.log(url_delete);
     console.log(token);
     fetch(url_delete, {
@@ -115,7 +112,6 @@ const Dashboard = () => {
         "Content-Type": "application/json",
         authorization: `Bearer ${token}`,
       },
-      
     })
       .then((res) => res.json())
       .then((data) => {
@@ -127,8 +123,30 @@ const Dashboard = () => {
       .catch((err) => {
         console.log(err);
       });
+  }
 
-
+  async function deletePost(url_delete, token) {
+    console.log("funcion borrar post");
+    console.log(url_delete);
+    console.log(token);
+    fetch(url_delete, {
+      method: "DELETE",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setResponseData(data);
+        refreshPosts();
+        navigateToMyWork();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -193,6 +211,8 @@ const Dashboard = () => {
                 refreshPosts,
                 updatePutMethod,
                 deleteComment,
+                deletePost,
+                url_posts,
               }}
             />
           </div>
