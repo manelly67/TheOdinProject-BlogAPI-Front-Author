@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { urlAddresses } from "../assets/urlAddresses";
 
@@ -10,7 +10,6 @@ const Dashboard = () => {
   titleDiv.textContent = "BLOG | DASHBOARD";
   const url_mywork = urlAddresses.my_work;
   const url_posts = urlAddresses.posts;
-  const url_comments = urlAddresses.comments;
 
   const navigate = useNavigate();
   const [allowed, setAllowed] = useState(false);
@@ -19,7 +18,7 @@ const Dashboard = () => {
   const location = useLocation();
   const [responseData, setResponseData] = useState("{}");
 
-  useEffect(() => {
+  const initDashboard = useCallback(() => {
     if (location.state !== null) {
       const { user, token } = location.state;
       setUser(user);
@@ -33,7 +32,13 @@ const Dashboard = () => {
     if (location.state === null) {
       navigate("/");
     }
-  }, [allowed]);
+  }, [location.state, navigate]);
+
+  useEffect(() => {
+    if (!allowed) {
+      initDashboard();
+    }
+  });
 
   function navigateToNewPost() {
     setResponseData("{}");
@@ -102,9 +107,6 @@ const Dashboard = () => {
   }
 
   async function deleteComment(url_delete, token) {
-    console.log("funcion borrar comentario");
-    console.log(url_delete);
-    console.log(token);
     fetch(url_delete, {
       method: "DELETE",
       credentials: "same-origin",
@@ -115,7 +117,6 @@ const Dashboard = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setResponseData(data);
         refreshPosts();
         navigateToComments();
@@ -126,9 +127,6 @@ const Dashboard = () => {
   }
 
   async function deletePost(url_delete, token) {
-    console.log("funcion borrar post");
-    console.log(url_delete);
-    console.log(token);
     fetch(url_delete, {
       method: "DELETE",
       credentials: "same-origin",
@@ -139,7 +137,6 @@ const Dashboard = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setResponseData(data);
         refreshPosts();
         navigateToMyWork();

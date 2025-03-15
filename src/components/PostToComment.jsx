@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { urlAddresses } from "../assets/urlAddresses";
-import { post } from "../mock_data";
-import { useOutletContext, useNavigate, useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import NewComment from "./NewComment";
 
 const titleDiv = document.querySelector("title");
@@ -25,13 +24,7 @@ const PostToComment = () => {
   const url = `${urlAddresses.posts}/${authorid}/${postid}`;
   const url_comment = `${urlAddresses.comments}/${postid}/new`;
 
-  useEffect(() => {
-    if (postd === null) {
-      getData(url);
-    }
-  }, [postd, url]);
-
-  async function getData(url) {
+  const getData = useCallback(async () => {
     try {
       const response = await fetch(url);
       const responseData = await response.json();
@@ -41,7 +34,13 @@ const PostToComment = () => {
       alert("Something was wrong. try again later");
       console.log(error);
     }
-  }
+  }, [url, setResponseData]);
+
+  useEffect(() => {
+    if (postd === null) {
+      getData();
+    }
+  }, [postd, getData]);
 
   return (
     <>

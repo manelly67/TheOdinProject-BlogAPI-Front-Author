@@ -9,9 +9,6 @@ const NewComment = (props) => {
   async function handleSubmit(event, url, token) {
     event.preventDefault();
     props.setResponseData("{}");
-    console.log("function handle submit");
-    console.log(url);
-    console.log(token);
     const postdata = {
       text: `${text}`,
     };
@@ -27,7 +24,6 @@ const NewComment = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         props.setResponseData(data);
         props.refreshPosts();
         props.setActiveIndex(0);

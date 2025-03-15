@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { urlAddresses } from "./assets/urlAddresses";
 
@@ -13,35 +13,27 @@ function App() {
   const initialData = "{}";
   const navigate = useNavigate();
 
- const [blogdata, setBlogdata] = useState(initialData);
- const allPosts = useMemo(()=>{
-  return blogdata.allPosts;
- },[blogdata]);
+  const [blogdata, setBlogdata] = useState(initialData);
+  const allPosts = useMemo(() => {
+    return blogdata.allPosts;
+  }, [blogdata]);
 
   const [user, setUser] = useState(null);
-  console.log(user);
 
-  const [token, setToken] = useState(
+  const token =
     localStorage.getItem("token") !== undefined
       ? JSON.parse(localStorage.getItem("token"))
-      : null
-  );
+      : null;
 
-  const [userlogin, setUserlogin] = useState(token === null ? false : true);
-
-  console.log(blogdata);
-  console.log(userlogin);
-  console.log(token);
+  const userlogin = token === null ? false : true;
 
   useEffect(() => {
-    getData(url);
-    if (token !== null) {
-      refreshPosts();
+    if (!allPosts) {
+      getData();
     }
-  }, [token]);
+  });
 
-  
-  async function getData(url) {
+  async function getData() {
     try {
       const response = await fetch(url);
       const responseData = await response.json();
@@ -53,7 +45,7 @@ function App() {
     }
   }
 
-  async function refreshPosts() {
+  const refreshPosts = useCallback(async () => {
     fetch(url_mywork, {
       method: "GET",
       credentials: "same-origin",
@@ -67,15 +59,21 @@ function App() {
         if (data.user !== undefined) {
           setUser(data.user);
           return data.user;
-        }else{
-          alert('token expired');
+        } else {
+          alert("token expired");
           navigate("/logout");
         }
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+  }, [token, navigate]);
+
+  useEffect(() => {
+    if (token !== null) {
+      refreshPosts();
+    }
+  }, [refreshPosts, token]);
 
   function navigateToDetails(arg1) {
     navigate(arg1);

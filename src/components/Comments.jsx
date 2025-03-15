@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { urlAddresses } from "../assets/urlAddresses";
-import { homepage } from "../mock_data";
 import { useOutletContext, useNavigate } from "react-router-dom";
 
 const titleDiv = document.querySelector("title");
@@ -9,24 +8,16 @@ const Comments = () => {
   const url = urlAddresses.home;
   titleDiv.textContent = "BLOG | COMMENTS";
 
-  const { user, token, responseData, setResponseData } = useOutletContext();
+  const { responseData } = useOutletContext();
   const [blogdata, setBlogdata] = useState("{}");
-  const [allPosts, setAllPosts] = useState(
-    blogdata.allPosts !== undefined ? blogdata.allPosts : null
-  );
+  const allPosts = blogdata.allPosts !== undefined ? blogdata.allPosts : null;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getData(url);
-    /* setBlogdata(homepage); */
-  }, [allPosts]);
-
   function navigateToDetails(arg) {
-    console.log(arg);
     navigate(arg);
   }
 
-  async function getData(url) {
+  const getData = useCallback(async () => {
     try {
       const response = await fetch(url);
       const responseData = await response.json();
@@ -36,7 +27,13 @@ const Comments = () => {
       alert("Something was wrong. try again later");
       console.log(error);
     }
-  }
+  }, [url]);
+
+  useEffect(() => {
+    if (!allPosts) {
+      getData();
+    }
+  });
 
   return (
     <>
